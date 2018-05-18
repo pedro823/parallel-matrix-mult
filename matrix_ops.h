@@ -16,3 +16,13 @@ matrix* read_matrix_from_file(char* file_name);
   Transposes a matrix.
  */
 void transpose_matrix(matrix* mat);
+
+/*
+  Frees a matrix
+ */
+void free_matrix(matrix* mat);
+
+/*
+  Prints a matrix for debug purposes.
+ */
+void print_matrix(matrix* m);
