@@ -4,7 +4,7 @@ EXEC = main
 
 .PHONY: clean, test
 
-test: test.o utils.o multiply_ops.o matrix_ops.o
+test: utils.o multiply_ops.o matrix_ops.o
 	$(CC) $(FLAGS) $^ -o test
 	./test
 
