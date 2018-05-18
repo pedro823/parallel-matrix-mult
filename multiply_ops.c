@@ -7,6 +7,7 @@
 
 matrix* multiply_matrix(matrix* A, matrix* B) {
   // TODO
+  return NULL;
 }
 
 matrix* sequential_multiply(matrix* A, matrix* B) {
@@ -23,7 +24,7 @@ matrix* sequential_multiply(matrix* A, matrix* B) {
     mat->m[i] = (float *) emalloc(sizeof(float) * B->len);
     for (int j = 0; j < B->len; j++) {
       sum = 0;
-      for (int k = 0; k < A->hei; k++) {
+      for (int k = 0; k < A->len; k++) {
         sum += A->m[i][k] * B->m[k][j];
       }
       mat->m[i][j] = sum;
@@ -44,11 +45,8 @@ int main() {
   matrix* C;
   A = read_matrix_from_file("test_A.mat");
   B = read_matrix_from_file("test_B.mat");
-  printf("%d\n", matrix_check(A, B));
   C = sequential_multiply(A, B);
-  print_matrix(A);
-  print_matrix(B);
-  print_matrix(C);
+  write_matrix_to_file(C, "test_C.mat");
   free_matrix(A);
   free_matrix(B);
   free_matrix(C);

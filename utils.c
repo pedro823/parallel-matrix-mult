@@ -5,7 +5,7 @@
 void *emalloc(size_t size) {
   void *p = malloc(size);
   if (p == NULL) {
-    fprintf(stderr, "ERROR: Could not allocate pointer of size %lld\n", size);
+    fprintf(stderr, "ERROR: Could not allocate pointer of size %ld\n", size);
     exit(-1);
   }
   return p;

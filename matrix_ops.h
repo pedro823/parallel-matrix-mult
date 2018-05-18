@@ -13,6 +13,11 @@ typedef struct {
 matrix* read_matrix_from_file(char* file_name);
 
 /*
+  Writes matrix to a file. Returns amount of bytes written.
+ */
+int write_matrix_to_file(matrix* mat, char* file_name);
+
+/*
   Transposes a matrix.
  */
 void transpose_matrix(matrix* mat);
