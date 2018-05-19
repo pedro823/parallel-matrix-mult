@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "matrix_ops.h"
 #include "utils.h"
 #include "test.h"
@@ -14,11 +15,11 @@ matrix* read_matrix_from_file(char* file_name) {
   matrix* mat = emalloc(sizeof(matrix));
   mat->hei = h;
   mat->len = l;
-  mat->m = (float **) emalloc(sizeof(float *) * h);
+  mat->m = (double **) emalloc(sizeof(double *) * h);
   for (int i = 0; i < h; i++) {
-    mat->m[i] = (float *) emalloc(sizeof(float) * l);
+    mat->m[i] = (double *) emalloc(sizeof(double) * l);
     for (int j = 0; j < l; j++) {
-      fscanf(f, "%f", &mat->m[i][j]);
+      fscanf(f, "%lf", &mat->m[i][j]);
     }
   }
   fclose(f);
@@ -52,9 +53,9 @@ int write_matrix_to_file(matrix* mat, char* file_name) {
 void transpose_matrix(matrix* mat) {
   if (mat == NULL) return;
   int m = mat->hei, n = mat->len;
-  float** new_m = (float **) emalloc(sizeof(float *) * mat->len);
+  double** new_m = (double **) emalloc(sizeof(double *) * mat->len);
   for (int j = 0; j < n; j++) {
-    new_m[j] = (float *) emalloc(sizeof(float) * mat->hei);
+    new_m[j] = (double *) emalloc(sizeof(double) * mat->hei);
     for (int i = 0; i < m; i++) {
       new_m[j][i] = mat->m[i][j];
     }
@@ -85,6 +86,22 @@ void print_matrix(matrix* mat) {
     }
     printf("\n");
   }
+}
+
+int aprox_equal(matrix* A, matrix* B) {
+  if (A == NULL && B == NULL) return 1;
+  if (A == NULL || B == NULL) return 0;
+  if (A->hei != B->hei || A->len != B->len) return 0;
+  double eq;
+  for (int i = 0; i < A->hei; i++) {
+    for (int j = 0; j < A->len; j++) {
+      eq = fabs(A->m[i][j] - B->m[i][j]);
+      if (eq > 1e-5) {
+        return 0;
+      }
+    }
+  }
+  return 1;
 }
 
 #ifdef TEST_MATRIX_OPS

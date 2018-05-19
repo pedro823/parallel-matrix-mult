@@ -4,7 +4,7 @@
 typedef struct {
   int hei; // Height of the matrix: number of lines
   int len; // Length of the matrix: number of rows
-  float **m; // Pointer to the matrix.
+  double **m; // Pointer to the matrix.
 } matrix;
 
 /*
@@ -31,3 +31,8 @@ void free_matrix(matrix* mat);
   Prints a matrix for debug purposes.
  */
 void print_matrix(matrix* m);
+
+/*
+  Checks if a matrix is aprox. equal to another
+ */
+int aprox_equal(matrix* A, matrix* B);

@@ -1,4 +1,4 @@
-FLAGS = -pthread -Wall -pedantic -g
+FLAGS = -pthread -Wall -pedantic -g -fopenmp -lm
 OBJS = main.o frog.o
 EXEC = main
 
