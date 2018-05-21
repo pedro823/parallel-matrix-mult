@@ -1,12 +1,9 @@
 FLAGS = -pthread -Wall -pedantic -g -fopenmp -lm
-OBJS = main.o frog.o
-EXEC = main
 
 .PHONY: clean, test
 
-test: utils.o multiply_ops.o matrix_ops.o
-	$(CC) $(FLAGS) $^ -o test
-	./test
+all: utils.o multiply_ops.o matrix_ops.o main.o
+	$(CC) $(FLAGS) $^ -o main
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
