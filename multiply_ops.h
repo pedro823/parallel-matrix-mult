@@ -4,9 +4,19 @@
 #include "matrix_ops.h"
 
 /*
-  Multiplies matrices the fastest way possible.
+  Thread function for line multiplication.
  */
-matrix* multiply_matrix(matrix* A, matrix* B);
+void* thread_line_multiply(void* multiply_input);
+
+/*
+  Multiplies matrices the fastest way possible with pthreads.
+ */
+matrix* multiply_matrix_pthreads(matrix* A, matrix* B);
+
+/*
+  Multiplies matrices the fastest way possible with openMP.
+ */
+matrix* multiply_matrix_openMP(matrix* A, matrix* B);
 
 /*
   Multiplies matrices sequentially.
