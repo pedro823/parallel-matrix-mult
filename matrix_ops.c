@@ -6,27 +6,27 @@
 #include "test.h"
 
 matrix* read_matrix_from_file(char* file_name) {
-  int h, l;
+  ulli h, l;
   FILE* f = fopen(file_name, "r");
   if (f == NULL) {
     fprintf(stderr, "File could not be opened for reading: %s\n", file_name);
     sigtrap();
   }
-  fscanf(f, "%d %d", &h, &l);
+  fscanf(f, "%llu %llu", &h, &l);
   matrix* mat = emalloc(sizeof(matrix));
   mat->hei = h;
   mat->len = l;
   mat->m = (double **) emalloc(sizeof(double *) * h);
   char* line = NULL;
   size_t len = 0;
-  for (int i = 0; i < h; i++) {
+  for (ulli i = 0; i < h; i++) {
     mat->m[i] = (double *) emalloc(sizeof(double) * l);
   }
   while (getline(&line, &len, f) != -1) {
-    int i, j;
+    ulli i, j;
     double v;
     if (strlen(line) > 1) { // Removes lines with just '\n'
-      sscanf(line, "%d %d %lf", &i, &j, &v);
+      sscanf(line, "%llu %llu %lf", &i, &j, &v);
       mat->m[i][j] = v;
     }
   }
@@ -37,7 +37,7 @@ matrix* read_matrix_from_file(char* file_name) {
   return mat;
 }
 
-int write_matrix_to_file(matrix* mat, char* file_name) {
+ulli write_matrix_to_file(matrix* mat, char* file_name) {
   if (mat == NULL) {
     fprintf(stderr, "write_matrix_to_file: mat is NULL\n");
     sigtrap();
@@ -47,12 +47,12 @@ int write_matrix_to_file(matrix* mat, char* file_name) {
     fprintf(stderr, "File could not be opened for writing: %s\n", file_name);
     sigtrap();
   }
-  int bytes_written = 0;
-  bytes_written += fprintf(f, "%d %d\n", mat->hei, mat->len);
-  for (int i = 0; i < mat->hei; i++) {
-    for (int j = 0; j < mat->len; j++) {
+  ulli bytes_written = 0;
+  bytes_written += fprintf(f, "%lld %lld\n", mat->hei, mat->len);
+  for (ulli i = 0; i < mat->hei; i++) {
+    for (ulli j = 0; j < mat->len; j++) {
       if (mat->m[i][j] != 0) { // Don't write out zeros
-        bytes_written += fprintf(f, "%d %d %lf\n", i, j, mat->m[i][j]);
+        bytes_written += fprintf(f, "%lld %lld %lf\n", i, j, mat->m[i][j]);
       }
     }
     bytes_written += fputc('\n', f);
@@ -62,26 +62,26 @@ int write_matrix_to_file(matrix* mat, char* file_name) {
 
 void transpose_matrix(matrix* mat) {
   if (mat == NULL) return;
-  int m = mat->hei, n = mat->len;
+  ulli m = mat->hei, n = mat->len;
   double** new_m = (double **) emalloc(sizeof(double *) * mat->len);
-  for (int j = 0; j < n; j++) {
+  for (ulli j = 0; j < n; j++) {
     new_m[j] = (double *) emalloc(sizeof(double) * mat->hei);
-    for (int i = 0; i < m; i++) {
+    for (ulli i = 0; i < m; i++) {
       new_m[j][i] = mat->m[i][j];
     }
   }
-  for (int i = 0; i < m; i++) {
+  for (ulli i = 0; i < m; i++) {
     efree(mat->m[i]);
   }
   efree(mat->m);
   mat->m = new_m;
-  int temp_dim = mat->hei;
+  ulli temp_dim = mat->hei;
   mat->hei = mat->len;
   mat->len = temp_dim;
 }
 
 void free_matrix(matrix* mat) {
-  for (int i = 0; i < mat->hei; i++) {
+  for (ulli i = 0; i < mat->hei; i++) {
     efree(mat->m[i]);
   }
   efree(mat->m);
@@ -89,9 +89,9 @@ void free_matrix(matrix* mat) {
 }
 
 void print_matrix(matrix* mat) {
-  printf("%d %d\n", mat->hei, mat->len);
-  for (int i = 0; i < mat->hei; i++) {
-    for (int j = 0; j < mat->len; j++) {
+  printf("%lld %lld\n", mat->hei, mat->len);
+  for (ulli i = 0; i < mat->hei; i++) {
+    for (ulli j = 0; j < mat->len; j++) {
       printf("%f ", mat->m[i][j]);
     }
     printf("\n");
@@ -103,8 +103,8 @@ int aprox_equal(matrix* A, matrix* B) {
   if (A == NULL || B == NULL) return 0;
   if (A->hei != B->hei || A->len != B->len) return 0;
   double eq;
-  for (int i = 0; i < A->hei; i++) {
-    for (int j = 0; j < A->len; j++) {
+  for (ulli i = 0; i < A->hei; i++) {
+    for (ulli j = 0; j < A->len; j++) {
       eq = fabs(A->m[i][j] - B->m[i][j]);
       if (eq > 1e-5) {
         return 0;

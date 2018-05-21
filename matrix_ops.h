@@ -1,9 +1,13 @@
 #pragma once
 #define __READ_MATRIX__
 
+#ifndef ulli
+typedef unsigned long long int ulli;
+#endif
+
 typedef struct {
-  int hei; // Height of the matrix: number of lines
-  int len; // Length of the matrix: number of rows
+  ulli hei; // Height of the matrix: number of lines
+  ulli len; // Length of the matrix: number of rows
   double **m; // Pointer to the matrix.
 } matrix;
 
@@ -15,7 +19,7 @@ matrix* read_matrix_from_file(char* file_name);
 /*
   Writes matrix to a file. Returns amount of bytes written.
  */
-int write_matrix_to_file(matrix* mat, char* file_name);
+ulli write_matrix_to_file(matrix* mat, char* file_name);
 
 /*
   Transposes a matrix.
