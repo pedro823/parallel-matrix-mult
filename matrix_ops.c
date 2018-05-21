@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
 #include "matrix_ops.h"
 #include "utils.h"
@@ -16,11 +17,21 @@ matrix* read_matrix_from_file(char* file_name) {
   mat->hei = h;
   mat->len = l;
   mat->m = (double **) emalloc(sizeof(double *) * h);
+  char* line = NULL;
+  size_t len = 0;
   for (int i = 0; i < h; i++) {
     mat->m[i] = (double *) emalloc(sizeof(double) * l);
-    for (int j = 0; j < l; j++) {
-      fscanf(f, "%lf", &mat->m[i][j]);
+  }
+  while (getline(&line, &len, f) != -1) {
+    int i, j;
+    double v;
+    if (strlen(line) > 1) { // Removes lines with just '\n'
+      sscanf(line, "%d %d %lf", &i, &j, &v);
+      mat->m[i][j] = v;
     }
+  }
+  if (line != NULL) {
+    free(line);
   }
   fclose(f);
   return mat;
@@ -40,9 +51,8 @@ int write_matrix_to_file(matrix* mat, char* file_name) {
   bytes_written += fprintf(f, "%d %d\n", mat->hei, mat->len);
   for (int i = 0; i < mat->hei; i++) {
     for (int j = 0; j < mat->len; j++) {
-      bytes_written += fprintf(f, "%f", mat->m[i][j]);
-      if (j != mat->len - 1) {
-        bytes_written += fputc(' ', f);
+      if (mat->m[i][j] != 0) { // Don't write out zeros
+        bytes_written += fprintf(f, "%d %d %lf\n", i, j, mat->m[i][j]);
       }
     }
     bytes_written += fputc('\n', f);

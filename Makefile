@@ -16,4 +16,4 @@ test: utils.o multiply_ops.o matrix_ops.o
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	-rm -f *.o *~
+	-rm -f *.o *~ test

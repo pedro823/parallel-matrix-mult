@@ -109,10 +109,10 @@ int main() {
   D = multiply_matrix(A, B);
   double distr_time_e = omp_get_wtime();
   float distr_time = distr_time_e - distr_time_s;
-  printf("%d\n", aprox_equal(C, D));
   printf("Time elapsed in distributed: %fs\n", distr_time);
+  printf("%d\n", aprox_equal(C, D));
 
-  // write_matrix_to_file(C, "test_C.mat");
+  write_matrix_to_file(C, "test_C.mat");
 
   free_matrix(A);
   free_matrix(B);

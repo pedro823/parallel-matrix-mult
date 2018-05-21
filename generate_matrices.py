@@ -10,11 +10,12 @@ def print_matrix_to_file(matrix, outfile):
     m, n = len(matrix), len(matrix[0])
     with open(outfile, 'w') as f:
         f.write(str(m) + ' ' + str(n) + '\n')
-        for v in matrix:
-            for idx, item in enumerate(v):
-                str_item =  ' ' * (idx != 0) + str(round(item, 2))
-                f.write(str_item)
-            f.write('\n')
+        for i, v in enumerate(matrix):
+            for j, item in enumerate(v):
+                f.write(' '.join([str(i), str(j), str(round(item, 3))]) + '\n')
+            #     str_item =  ' ' * (idx != 0) + str(round(item, 2))
+            #     f.write(str_item)
+            # f.write('\n')
 
 def generate_matrix(m, n):
     matrix = list()
