@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
 	C = multiply_matrix_pthreads(A, B);
     double end_time = omp_get_wtime();
     double execution_time = end_time - start_time;
-    printf("Time elapsed executing in %s mode: %lf\n", (implementation == 'o' ? "OpenMP" : "Pthreads"), execution_time);
+    printf("Time elapsed executing in %s mode: %lfs\n", (implementation == 'o' ? "OpenMP" : "Pthreads"), execution_time);
 
     write_matrix_to_file(C, C_path);
 
