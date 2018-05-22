@@ -11,6 +11,18 @@ typedef struct {
   double **m; // Pointer to the matrix.
 } matrix;
 
+typedef struct {
+    matrix *A; // Left Matrix
+    matrix *B; // Right Matrix
+    matrix *C; // Result Matrix
+    ulli i; // Thread index
+} thread_input;
+
+/*
+  Creates and fill input
+ */
+thread_input* create_input(matrix* A, matrix* B, matrix* C, ulli i);
+
 /*
   Reads matrix from a file.
  */

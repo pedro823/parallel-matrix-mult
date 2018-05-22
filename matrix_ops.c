@@ -5,6 +5,16 @@
 #include "utils.h"
 #include "test.h"
 
+thread_input* create_input(matrix* A, matrix* B, matrix* C, ulli i) {
+    thread_input* cur_input = (thread_input *)emalloc(sizeof(thread_input));
+    cur_input->A = A;
+    cur_input->B = B;
+    cur_input->C = C;
+    cur_input->i = i;
+    return cur_input;
+}
+
+
 matrix* read_matrix_from_file(char* file_name) {
   ulli h, l;
   FILE* f = fopen(file_name, "r");
@@ -20,7 +30,7 @@ matrix* read_matrix_from_file(char* file_name) {
   char* line = NULL;
   size_t len = 0;
   for (ulli i = 0; i < h; i++) {
-    mat->m[i] = (double *) emalloc(sizeof(double) * l);
+      mat->m[i] = (double *) ecalloc(l, sizeof(double));
   }
   while (getline(&line, &len, f) != -1) {
     ulli i, j;
@@ -107,7 +117,7 @@ int aprox_equal(matrix* A, matrix* B) {
     for (ulli j = 0; j < A->len; j++) {
       eq = fabs(A->m[i][j] - B->m[i][j]);
       if (eq > 1e-5) {
-        return 0;
+	  return 0;
       }
     }
   }
