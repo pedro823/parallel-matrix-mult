@@ -16,6 +16,7 @@ onde <implementação> é 'p' quando executado no modo Pthreads ou 'o' quando ex
 Para esse projeto foram tomadas algumas decisões para otimizar a multiplicação de matrizes. Seguindo as dicas do enunciado, conseguimos otimizar o cache transpondo a matriz B. Isto é, quando fazemos a multiplicação de matrizes A * B, transpomos a matriz B para facilitar o acesso e diminuir o número de "Cache Miss". Assim fizemos as seguintes mudamos:
 
 ~ Código sequencial original, com muito cache miss:
+```C
 for (ulli i = 0; i < A->hei; i++) {
 	for (ulli j = 0; j < B->hei; j++) {
 	    sum = 0;
@@ -25,8 +26,10 @@ for (ulli i = 0; i < A->hei; i++) {
     	mat->m[i][j] = sum;
 	}
 }
+```
 
 ~ Código sequencial alternativo, com menos cache miss:
+```C
 transpose(B);
 for (ulli i = 0; i < A->hei; i++) {
 	for (ulli j = 0; j < B->hei; j++) {
@@ -37,16 +40,19 @@ for (ulli i = 0; i < A->hei; i++) {
     	mat->m[i][j] = sum;
 	}
 }
+```
 
 Além disso, paralelizamos o código com OpenMP e Pthreads (como pedido no enunciado). Para paralelizar a execução tivemos abordagens ligeiramente diferentes com pthreads e com OpenMP. Com OpenMP optamos por paralelizar ambos os for externos, utilizando dois "#pragma omp parallel for private(sum)", para os "for" que iteram pelos indices da matriz resultado (e consequentemente pelos indices de A e B). Já com Pthreads optamos de dividir o primeiro for externo em "Pedaços" (Chunks) e separá-los entre as threads. Chegamos a conclusão que 32 threads era um número bom para as threads.
 Também foi utilizado "unsigned long long int" para a indexação das matrizes, assim como indicado nas dicas no enunciado.
 
 Para a matriz que testamos, e está sendo entregue junto com o EP, tivemos os seguintes resultados:
 
+```
 Time elapsed in sequential: 31.417396s
 Time elapsed with transposition: 12.213758s
 Time elapsed in parallel with OpenMP: 7.466603s
 Time elapsed in parallel with Pthreads: 6.370319s
+```
 
 O computador utilizado tem as seguintes especificações de hardware:
 - Processador: i5-6200U @ 2.3 GHz
