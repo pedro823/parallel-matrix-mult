@@ -67,6 +67,8 @@ ulli write_matrix_to_file(matrix* mat, char* file_name) {
     }
     bytes_written += fputc('\n', f);
   }
+
+  fclose(f);
   return bytes_written;
 }
 
