@@ -13,7 +13,7 @@ onde <implementação> é 'p' quando executado no modo Pthreads ou 'o' quando execu
 
 ### Decisões de projeto ###  
 
-Para esse projeto foram tomadas algumas decisões para otimizar a multiplicação de matrizes. Seguindo as dicas do enunciado, conseguimos otimizar o cache transpondo a matriz B. Isto é, quando fazemos a multiplicação de matrizes A * B, transpomos a matriz B para facilitar o acesso e diminuir o número de "Cache Miss". Assim fizemos as seguintes mudamos:
+Para esse projeto foram tomadas algumas decisões para otimizar a multiplicação de matrizes. Seguindo as dicas do enunciado, conseguimos otimizar o cache transpondo a matriz B. Isto é, quando fazemos a multiplicação de matrizes A * B, transpomos a matriz B para facilitar o acesso e diminuir o número de "Cache Miss". Assim fizemos as seguintes mudanças:
 
 ~ Código sequencial original, com muito cache miss:
 for (ulli i = 0; i < A->hei; i++) {
